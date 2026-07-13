@@ -148,16 +148,13 @@ const candidateSchema = new mongoose.Schema(
 );
 
 /* Password Hashing  */
-candidateSchema.pre("save", async function (next) {
+candidateSchema.pre("save", async function () {
   if (!this.isModified("password")) {
-    return next();
+    return;
   }
 
   const salt = await bcrypt.genSalt(10);
-
   this.password = await bcrypt.hash(this.password, salt);
-
-  next();
 });
 
 /* Compare Password Method */
